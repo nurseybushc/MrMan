@@ -1,0 +1,149 @@
+package com.oscarboking.mrman.sceens;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+
+
+/**
+ * Created by Boking on 2016-07-13.
+ */
+public class MainMenu implements Screen {
+
+    private Game game;
+
+    public MainMenu(Game game){
+        this.game = game;
+    }
+
+    private SpriteBatch batch;
+    private TextureAtlas buttonAtlas;
+    private TextButtonStyle buttonStyle;
+    private Skin skin;
+    private BitmapFont font;
+    private BitmapFont white,black;
+    private Label heading;
+    private LabelStyle labelStyle;
+
+    Texture backgroundTexture;
+
+    private Stage stage;
+    private TextButton buttonPlay, buttonExit;
+    private Table table;
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        stage.act();
+        batch.begin();
+        stage.draw();
+        batch.end();
+    }
+
+    @Override
+    public void show() {
+
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+
+        batch = new SpriteBatch();
+
+        font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
+
+        labelStyle = new LabelStyle(font, Color.WHITE);
+
+        heading = new Label(com.oscarboking.mrman.MyGdxGame.TITLE,labelStyle);
+
+        heading.setPosition(Gdx.graphics.getWidth() / 2 - heading.getWidth(), Gdx.graphics.getHeight() / 2);
+        heading.setFontScale(2);
+
+        table = new Table();
+        table.setFillParent(true);
+
+        skin = new Skin();
+        buttonAtlas = new TextureAtlas("buttons/button.pack");
+        skin.addRegions(buttonAtlas);
+        buttonStyle = new TextButtonStyle();
+        buttonStyle.up = skin.getDrawable("button");
+        buttonStyle.over = skin.getDrawable("buttonpressed");
+        buttonStyle.down = skin.getDrawable("buttonpressed");
+        buttonStyle.font = font;
+
+        buttonPlay = new TextButton("Play this shizzle!", buttonStyle);
+        buttonPlay.setPosition(0,0);
+
+        buttonExit = new TextButton("Already wanna exit?", buttonStyle);
+        buttonExit.setPosition((Gdx.graphics.getWidth() - buttonExit.getWidth()), 0);
+
+        Gdx.input.setInputProcessor(stage);
+
+        buttonPlay.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("clicked play!");
+                game.setScreen(new GameScreen(game,true));
+                //((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                return true;
+            }
+        });
+
+        buttonExit.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("clicked quit!");
+                Gdx.app.exit();
+                return true;
+            }
+        });
+        table.add(heading);
+        table.row();
+        table.add(buttonPlay);
+        table.row();
+        table.add(buttonExit);
+        table.debug();
+        stage.addActor(table);
+    }
+
+
+
+    @Override
+    public void resize(int width, int height){
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+}
