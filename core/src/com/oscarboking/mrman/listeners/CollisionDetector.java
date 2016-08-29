@@ -1,6 +1,8 @@
 package com.oscarboking.mrman.listeners;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -82,6 +84,7 @@ public class CollisionDetector implements ContactListener {
                 player = (Player) fixtureB.getUserData();
                 wall = (Wall) fixtureA.getUserData();
             }
+
             Gdx.app.log("sd","player Y: " + player.getY() +"player height: " + player.getHeight()+ " wall Y: " + wall.getY());
             if(player.getY()+player.getHeight()>wall.getY() && player.getY() < wall.getY()+wall.getHeight()){
                 player.hitRegistered();
