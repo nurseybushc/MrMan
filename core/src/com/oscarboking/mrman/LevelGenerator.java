@@ -1,6 +1,7 @@
 package com.oscarboking.mrman;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -77,7 +78,9 @@ public class LevelGenerator {
     public void draw(SpriteBatch batch){
         drawBackground(batch);
         for(com.oscarboking.mrman.Spawnable sprite : objectInWorld){
-            sprite.redraw(batch);
+            if(!sprite.isFlaggedForKill()) {
+                sprite.redraw(batch);
+            }
         }
 
     }
@@ -103,16 +106,17 @@ public class LevelGenerator {
 
 
             //param 1: minimum value (first preset), param 2 maximum (doesn't include max so add 1)
-            spawnNumber = ThreadLocalRandom.current().nextInt(0, 5 + 1);
+            spawnNumber = MathUtils.random(0,5);
 
             if(MathUtils.random(0,10) < 2){
+                System.out.println("spawning item");
                 //choose which item to spawn and position
-                int itemDropNumber = ThreadLocalRandom.current().nextInt(0, 0 + 1);
-                int itemY = ThreadLocalRandom.current().nextInt(0,20+1);
-                int itemX = Math.round(x) + ThreadLocalRandom.current().nextInt(-10,10);
+                int itemDropNumber = MathUtils.random(0,1);
+                int itemY = MathUtils.random(0,20);
+                int itemX = Math.round(x) + MathUtils.random(-10,10);
 
                 if(itemDropNumber == 0){
-                    pistolDrop = new PistolDrop(world,screen,x,y);
+                    pistolDrop = new PistolDrop(world,screen,x+itemX,y+itemY);
                     objectInWorld.add(pistolDrop);
                 }
             }
@@ -120,18 +124,18 @@ public class LevelGenerator {
             if (spawnNumber == 0) {
                 //spawn spike
                 Gdx.app.log("SPAWN", "SPIKE");
-                spikes = new com.oscarboking.mrman.Spikes(world, screen, x, 1, width, 1);
+                spikes = new Spikes(world, screen, x, 1, width, 1);
                 objectInWorld.add(spikes);
             } else if (spawnNumber == 1) {
                 //spawn wizard
                 Gdx.app.log("SPAWN", "wizard");
-                wizard = new com.oscarboking.mrman.Wizard(world, screen, playerBody, x, 2, 1, 2);
+                wizard = new Wizard(world, screen, playerBody, x, 2, 1, 2);
                 objectInWorld.add(wizard);
             } else if (spawnNumber == 2) {
                 Gdx.app.log("SPAWN", "wizard on wall");
                 //spawn wizard on top of wall
                 wall = new Wall(world, screen, x, 3, 4, 3);
-                wizard = new com.oscarboking.mrman.Wizard(world, screen, playerBody, x, 14, 1, 2);
+                wizard = new Wizard(world, screen, playerBody, x, 14, 1, 2);
                 objectInWorld.add(wall);
                 objectInWorld.add(wizard);
             } else if (spawnNumber == 3) {
@@ -139,13 +143,13 @@ public class LevelGenerator {
                 objectInWorld.add(wall);
             } else if (spawnNumber == 4) {
                 wall = new Wall(world, screen, x, 30, 4, 3);
-                wizard = new com.oscarboking.mrman.Wizard(world, screen, playerBody, x, 2, 1, 2);
+                wizard = new Wizard(world, screen, playerBody, x, 2, 1, 2);
                 objectInWorld.add(wall);
                 objectInWorld.add(wizard);
             } else if (spawnNumber == 5) {
                 wall = new Wall(world, screen, x - 5, 30, 4, 3);
-                wizard = new com.oscarboking.mrman.Wizard(world, screen, playerBody, x - 15, 2, 1, 2);
-                spikes = new com.oscarboking.mrman.Spikes(world, screen, x + 10, 1, width, 1);
+                wizard = new Wizard(world, screen, playerBody, x - 15, 2, 1, 2);
+                spikes = new Spikes(world, screen, x + 10, 1, width, 1);
                 objectInWorld.add(spikes);
                 objectInWorld.add(wall);
                 objectInWorld.add(wizard);
@@ -160,18 +164,19 @@ public class LevelGenerator {
     }
 
     public void killObjects(){
-        Iterator<com.oscarboking.mrman.Spawnable> iterator = objectInWorld.iterator();
-        com.oscarboking.mrman.Spawnable object;
+        Iterator<Spawnable> iterator = objectInWorld.iterator();
+        Spawnable object;
         while (iterator.hasNext()){
             object = iterator.next();
-
-            if(playerX > object.getX() || object.isFlaggedForKill()){
-                //destroy the object
-                object.destroy();
+            if(object.isFlaggedForKill()){
+                world.destroyBody(object.getBody());
+                iterator.remove();
+                Gdx.app.log("KILL", "REMOVE BECAUSE FLAG");
+            }else if (playerX > object.getX()){
+                world.destroyBody(object.getBody());
                 iterator.remove();
                 Gdx.app.log("KILL", "Killing object");
             }
-            //object.destroy();
         }
     }
 

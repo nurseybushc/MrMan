@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
+import com.oscarboking.mrman.sceens.GameScreen;
 
 
 /**
@@ -61,6 +62,7 @@ public class Player extends Sprite implements InputProcessor{
     public Usable item;
     public float cooldown;
     public boolean isPlaying;
+    public boolean itemOffCooldown;
 
 
     public Player(World world, com.oscarboking.mrman.sceens.GameScreen screen, float x, float y, float width, float height){
@@ -91,7 +93,7 @@ public class Player extends Sprite implements InputProcessor{
         this.world = world;
 
         item = null;
-
+        itemOffCooldown = true;
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -105,8 +107,8 @@ public class Player extends Sprite implements InputProcessor{
         fixtureDef.shape = playerShape;
         fixtureDef.density = 1.3f;
 
-        fixtureDef.filter.categoryBits = com.oscarboking.mrman.sceens.GameScreen.PLAYER_BIT;
-        fixtureDef.filter.maskBits = com.oscarboking.mrman.sceens.GameScreen.DEFAULT | com.oscarboking.mrman.sceens.GameScreen.WIZARD_BIT | com.oscarboking.mrman.sceens.GameScreen.WALL_BIT;
+        fixtureDef.filter.categoryBits = GameScreen.PLAYER_BIT;
+        fixtureDef.filter.maskBits = GameScreen.DEFAULT | GameScreen.WIZARD_BIT | GameScreen.WALL_BIT;
 
         this.body = world.createBody(bodyDef);
         this.body.createFixture(fixtureDef).setUserData(this);
@@ -130,6 +132,10 @@ public class Player extends Sprite implements InputProcessor{
 
     public void showInfoText(String text, float time){
         mainGameScreen.showInfoText(text,time);
+    }
+
+    public void setVelocity(float xVelocity, float yVelocity){
+        body.setLinearVelocity(xVelocity,yVelocity);
     }
 
     public boolean hasItem(){
@@ -214,7 +220,9 @@ public class Player extends Sprite implements InputProcessor{
             body.setLinearVelocity(targetSpeed,body.getLinearVelocity().y);
             body.setGravityScale(1);
         }else if(isUsing){
-            body.setLinearVelocity(body.getLinearVelocity().x, 0);
+
+            body.setLinearVelocity(targetSpeed*2.5f,0);
+            //body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.setGravityScale(0);
         }
 
@@ -350,18 +358,17 @@ public class Player extends Sprite implements InputProcessor{
                             offCooldown = true;
                         }
                     }, 1f);
-                } else if (item != null) {
+                } else if (item != null && itemOffCooldown) {
                     cooldown = item.getCooldown();
-                    boolean itemOffCooldown = true;
+                    itemOffCooldown = false;
 
-                    if (itemOffCooldown) {
-                        item.use(screenX, screenY);
-                    }
+                    item.use(screenX, screenY);
+
                     //Cooldown
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
-                            offCooldown = true;
+                            itemOffCooldown = true;
                         }
                     }, cooldown);
                     }

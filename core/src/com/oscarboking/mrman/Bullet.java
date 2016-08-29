@@ -31,7 +31,6 @@ public class Bullet extends Sprite implements Spawnable {
         super(screen.getTextureAtlas().findRegion("wizardbolt"));
 
         destroyFlag = false;
-        this.width = width;
 
         textureRegion = new TextureRegion(getTexture(), 66, 15, 8, 8);
         setBounds(66 / 3f, 15 / 3f, 8 / 3f, 8 / 3f);
@@ -84,6 +83,11 @@ public class Bullet extends Sprite implements Spawnable {
     @Override
     public boolean isFlaggedForKill() {
         return destroyFlag;
+    }
+
+    @Override
+    public Body getBody() {
+        return body;
     }
 
     @Override

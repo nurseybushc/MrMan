@@ -85,4 +85,9 @@ public class Spikes extends Sprite implements Spawnable{
     public boolean isFlaggedForKill() {
         return destroyFlag;
     }
+
+    @Override
+    public Body getBody() {
+        return body;
+    }
 }

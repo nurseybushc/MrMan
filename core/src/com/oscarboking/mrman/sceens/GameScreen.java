@@ -35,6 +35,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.oscarboking.mrman.Player;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.oscarboking.mrman.Spawnable;
 import com.oscarboking.mrman.listeners.CollisionDetector;
 import java.util.List;
 
@@ -162,7 +163,6 @@ public class GameScreen implements Screen{
         world.getBodies(tmpBodies);
         for (Body body : tmpBodies) {
             if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
-                //we wanna draw this
                 Sprite sprite = (Sprite) body.getUserData();
                 sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
                 sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
@@ -179,12 +179,14 @@ public class GameScreen implements Screen{
         //update GUI
         scoreLabel.setText(String.format("%.0f", currentScore));
 
+        //ENABLED DEBUG RENDERING
         debugRenderer.render(world, camera.combined);
 
         if(isFirst){
             System.out.println("isfirst we should pause");
             setPauseModeTrue();
             pauseLabel.setText("<- Tap left side to Jump \nTap right side to dash/use item ->");
+            deathScore.setVisible(false);
         }
 
     }
@@ -223,14 +225,15 @@ public class GameScreen implements Screen{
 
 
     }
-    public void setPauseModeTrue(){
-        isPaused=true;
+    public void setPauseModeTrue() {
+        isPaused = true;
         scoreLabel.setVisible(false);
         pauseLabel.setText("Paused");
         pauseLabel.setVisible(true);
         deathScore.setText("Score: " + String.format("%.0f", currentScore));
         deathScore.setVisible(true);
     }
+
     public void setPauseModeFalse(){
         isPaused=false;
         isFirst = false;

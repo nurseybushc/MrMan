@@ -8,8 +8,10 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.oscarboking.mrman.Player;
+import com.oscarboking.mrman.Spikes;
 import com.oscarboking.mrman.Wall;
 import com.oscarboking.mrman.Wizard;
+import com.oscarboking.mrman.WizardBolt;
 
 /**
  * Created by Boking on 2016-07-20.
@@ -19,7 +21,9 @@ public class CollisionDetector implements ContactListener {
     private boolean fixtureAisPlayer;
     private Player player;
     private Wizard wizard;
+    private WizardBolt wizardBolt;
     private Wall wall;
+    private Spikes spikes;
     private String itemInfo = "Swipe/hold to drop";
     public com.oscarboking.mrman.sceens.GameScreen screen;
     public World world;
@@ -41,11 +45,32 @@ public class CollisionDetector implements ContactListener {
             return;
 
 
-        if (isBoltContact(fixtureA, fixtureB) || isSpikeContact(fixtureA, fixtureB)) {
+        if (isBoltContact(fixtureA, fixtureB)) {
             if (fixtureAisPlayer) {
                 player = (Player) fixtureA.getUserData();
+                wizardBolt = (WizardBolt) fixtureB.getUserData();
             } else {
                 player = (Player) fixtureB.getUserData();
+                wizardBolt = (WizardBolt) fixtureA.getUserData();
+            }
+
+            float xVelocity = player.getVelocityX();
+            if(player.isUsing()){
+                Gdx.app.log("HIT","KILLED BOLT");
+                wizardBolt.destroy();
+                player.setVelocity(xVelocity,player.getBody().getLinearVelocity().y);
+            }else{
+                Gdx.app.log("HIT","DEATH BY WIZARD");
+                player.hitRegistered();
+            }
+        }
+        if(isSpikeContact(fixtureA, fixtureB)){
+            if (fixtureAisPlayer) {
+                player = (Player) fixtureA.getUserData();
+                spikes = (Spikes) fixtureB.getUserData();
+            } else {
+                player = (Player) fixtureB.getUserData();
+                spikes = (Spikes) fixtureA.getUserData();
             }
             player.hitRegistered();
         }
@@ -72,9 +97,11 @@ public class CollisionDetector implements ContactListener {
                 wizard = (Wizard) fixtureA.getUserData();
             }
 
+            float xVelocity = player.getVelocityX();
             if(player.isUsing()){
                 Gdx.app.log("HIT","KILLED WIZARD");
                 wizard.destroy();
+                player.setVelocity(xVelocity,player.getBody().getLinearVelocity().y);
             }else{
                 Gdx.app.log("HIT","DEATH BY WIZARD");
                 player.hitRegistered();

@@ -65,7 +65,7 @@ public class Wizard extends Sprite implements Spawnable{
         fixture.setFilterData(newFilter);
 
         textureRegion = new TextureRegion(getTexture(), 46, 1, 18, 22);
-        setBounds(46 / 3f, 1 / 3f, 18 / 3f, 22 / 3f);
+        setBounds(46 / 3f, 1 / 3f, 18 / 3f, 25 / 3f);
         setRegion(textureRegion);
 
         //Shoot bolt
@@ -77,6 +77,12 @@ public class Wizard extends Sprite implements Spawnable{
                 screen.getObjectInWorld().add(bolt);
             }
         }, 0.5f);
+
+        shape.dispose();
+    }
+
+    public void setBody(Body body){
+        this.body = body;
     }
 
     @Override
@@ -86,7 +92,6 @@ public class Wizard extends Sprite implements Spawnable{
             bolt.update();
         }
     }
-
     @Override
     public float getX() {
         return body.getPosition().x;
@@ -103,10 +108,14 @@ public class Wizard extends Sprite implements Spawnable{
         Filter newFilter = new Filter();
         newFilter.categoryBits = com.oscarboking.mrman.sceens.GameScreen.DESTROYED_BIT;
         fixture.setFilterData(newFilter);
-
-        world.destroyBody(body);
         destroyFlag = true;
-        shape.dispose();
+
+
+    }
+
+    @Override
+    public Body getBody(){
+        return body;
     }
 
     @Override

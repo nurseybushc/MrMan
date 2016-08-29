@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -35,15 +36,15 @@ public class WizardBolt extends Sprite implements Spawnable {
         destroyFlag = false;
         this.width = width;
 
-        textureRegion = new TextureRegion(getTexture(), 66, 15, 8, 8);
-        setBounds(66/3f,15/3f, 8/3f, 8 / 3f);
+        textureRegion = new TextureRegion(getTexture(), 66, 15, 6, 6);
+        setBounds(66/3f,15/3f, 6/3f, 6 / 3f);
         setRegion(textureRegion);
 
 
         this.playerBody = playerBody;
 
         shape = new PolygonShape();
-        shape.setAsBox(width * 2, height * 2);
+        shape.setAsBox(width*2, height*2);
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -55,10 +56,11 @@ public class WizardBolt extends Sprite implements Spawnable {
         fixtureDef.density = 5;
 
         this.body = world.createBody(bodyDef);
-        this.body.createFixture(fixtureDef).setUserData(this);
+        fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this);
 
         body.setGravityScale(0);
-        body.setLinearVelocity(-25, playerBody.getPosition().y);
+        body.setLinearVelocity(-20, playerBody.getPosition().y);
 
         shape.dispose();
 
@@ -72,8 +74,11 @@ public class WizardBolt extends Sprite implements Spawnable {
 
     @Override
     public void destroy() {
-        destroyFlag = true;
+        Filter newFilter = new Filter();
+        newFilter.categoryBits = com.oscarboking.mrman.sceens.GameScreen.DESTROYED_BIT;
+        fixture.setFilterData(newFilter);
 
+        destroyFlag = true;
     }
 
     @Override
@@ -89,6 +94,11 @@ public class WizardBolt extends Sprite implements Spawnable {
     @Override
     public boolean isFlaggedForKill() {
         return destroyFlag;
+    }
+
+    @Override
+    public Body getBody() {
+        return body;
     }
 
     @Override
