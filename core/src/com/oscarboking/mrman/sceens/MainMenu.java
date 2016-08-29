@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.utils.Align;
 
 
 /**
@@ -42,7 +43,7 @@ public class MainMenu implements Screen {
     Texture backgroundTexture;
 
     private Stage stage;
-    private TextButton buttonPlay, buttonExit;
+    private TextButton buttonPlay, buttonExit, buttonStats, buttonLeaderboard, buttonOptions;
     private Table table;
 
     @Override
@@ -71,8 +72,8 @@ public class MainMenu implements Screen {
 
         heading = new Label(com.oscarboking.mrman.MyGdxGame.TITLE,labelStyle);
 
-
-        heading.setPosition(Gdx.graphics.getWidth() / 2 - heading.getWidth(), Gdx.graphics.getHeight() / 2);
+        heading.setPosition(Gdx.graphics.getWidth()/2 - heading.getWidth()/2, Gdx.graphics.getHeight() / 2+200);
+        heading.setAlignment(Align.center);
         heading.setFontScale(3);
 
         table = new Table();
@@ -88,10 +89,10 @@ public class MainMenu implements Screen {
         buttonStyle.font = font;
 
         buttonPlay = new TextButton("Play", buttonStyle);
-        buttonPlay.setPosition(0,0);
-
+        buttonStats = new TextButton("Stats", buttonStyle);
         buttonExit = new TextButton("Quit", buttonStyle);
-        buttonExit.setPosition((Gdx.graphics.getWidth() - buttonExit.getWidth()), 0);
+        buttonLeaderboard = new TextButton("Leaderboards", buttonStyle);
+        buttonOptions = new TextButton("Options", buttonStyle);
 
         //Gdx.input.setInputProcessor(stage);
 
@@ -105,6 +106,31 @@ public class MainMenu implements Screen {
             }
         });
 
+        buttonStats.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("clicked stats!");
+                //game.setScreen(new StatScreen(game,true));
+                return true;
+            }
+        });
+
+        buttonOptions.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("clicked options!");
+                //game.setScreen(new OptionScreen(game,true));
+                return true;
+            }
+        });
+
+        buttonLeaderboard.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("clicked leaderboard!");
+                return true;
+            }
+        });
 
         buttonExit.addListener(new InputListener() {
             @Override
@@ -114,15 +140,15 @@ public class MainMenu implements Screen {
                 return true;
             }
         });
-        table.add(heading).padBottom(100);
+        stage.addActor(heading);
+        table.add(buttonPlay).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10).padRight(30).padBottom(50).padTop(300);
+        table.add(buttonStats).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10).padBottom(50).padTop(300);
         table.row();
-        table.add(buttonPlay).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10).padBottom(30);
-        table.row();
-        table.add(buttonExit).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10);
-        //table.debug();    show debug lines
+        table.add(buttonLeaderboard).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10).padRight(30);
+        table.add(buttonOptions).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10);
+        //table.debug();
         stage.addActor(table);
     }
-
 
 
     @Override
