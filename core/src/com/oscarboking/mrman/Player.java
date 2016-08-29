@@ -55,7 +55,7 @@ public class Player extends Sprite implements InputProcessor{
 
     private float targetSpeed;
     public  float width, height;
-    private com.oscarboking.mrman.sceens.GameScreen mainGameScreen;
+    private GameScreen mainGameScreen;
 
     private TextureRegion playerStatic;
 
@@ -130,10 +130,6 @@ public class Player extends Sprite implements InputProcessor{
 
     }
 
-    public void showInfoText(String text, float time){
-        mainGameScreen.showInfoText(text,time);
-    }
-
     public void setVelocity(float xVelocity, float yVelocity){
         body.setLinearVelocity(xVelocity,yVelocity);
     }
@@ -147,6 +143,7 @@ public class Player extends Sprite implements InputProcessor{
     }
 
     public void equipItem(Usable item){
+        //diplay something?
         this.item = item;
     }
 

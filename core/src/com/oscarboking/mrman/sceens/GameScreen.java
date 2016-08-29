@@ -86,7 +86,6 @@ public class GameScreen implements Screen{
     private Label deathRestartLabel;
     private TextButton pauseButton;
     private Label pauseLabel;
-    private Label infoLabel;
 
     private TextureAtlas buttonAtlas;
     private TextButton.TextButtonStyle buttonStyle;
@@ -123,7 +122,7 @@ public class GameScreen implements Screen{
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        infoLabel.setPosition(camera.position.x+(Gdx.graphics.getWidth()/2)-infoLabel.getWidth(),camera.position.y + Gdx.graphics.getHeight()/2);
+
         if(!isPaused) {
 
             levelGenerator.setPlayerX(player.getX());
@@ -250,17 +249,6 @@ public class GameScreen implements Screen{
         return isPaused;
     }
 
-    public void showInfoText(String text, float time){
-        infoLabel.setText(text);
-        infoLabel.setVisible(true);
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-               infoLabel.setVisible(false);
-            }
-        }, time);
-    }
-
     @Override
     public void show() {
 
@@ -303,11 +291,6 @@ public class GameScreen implements Screen{
         scoreLabel = new Label(Float.toString((currentScore / 1000) * 1000), textStyle);
         scoreLabel.setPosition(Gdx.graphics.getWidth() / 2 - scoreLabel.getWidth(), Gdx.graphics.getHeight() / 2);
         scoreLabel.setFontScale(2);
-
-        infoLabel = new Label("", textStyle);
-        infoLabel.setPosition(0, 0);
-        infoLabel.setFontScale(1);
-        infoLabel.setVisible(false);
 
         pauseLabel = new Label("Paused", textStyle);
         pauseLabel.setPosition(Gdx.graphics.getWidth() / 2 - pauseLabel.getWidth(), Gdx.graphics.getHeight() / 2);
@@ -402,7 +385,6 @@ public class GameScreen implements Screen{
         table.row();
         table.add(deathRestartLabel).top().center().expand();;
         table.row();
-        table.add(infoLabel);
         //table.debug(); //show debug lines
         stage.addActor(table);
 

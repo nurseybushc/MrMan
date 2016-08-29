@@ -117,7 +117,6 @@ public class CollisionDetector implements ContactListener {
                 player = (Player) fixtureB.getUserData();
             }
             player.equipItem(new com.oscarboking.mrman.Pistol(world,screen,player));
-            player.showInfoText(itemInfo,3);
         }
 
     }
