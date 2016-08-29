@@ -36,7 +36,6 @@ public class MainMenu implements Screen {
     private TextButtonStyle buttonStyle;
     private Skin skin;
     private BitmapFont font;
-    private BitmapFont white,black;
     private Label heading;
     private LabelStyle labelStyle;
 
@@ -48,7 +47,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(40 / 255f, 37 / 255f, 44 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act();
@@ -65,14 +64,16 @@ public class MainMenu implements Screen {
 
         batch = new SpriteBatch();
 
-        font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
+        font = new BitmapFont(Gdx.files.internal("fonts/gamefont.fnt"));
+        font.getData().setScale(2);
 
         labelStyle = new LabelStyle(font, Color.WHITE);
 
         heading = new Label(com.oscarboking.mrman.MyGdxGame.TITLE,labelStyle);
 
+
         heading.setPosition(Gdx.graphics.getWidth() / 2 - heading.getWidth(), Gdx.graphics.getHeight() / 2);
-        heading.setFontScale(2);
+        heading.setFontScale(3);
 
         table = new Table();
         table.setFillParent(true);
@@ -86,13 +87,13 @@ public class MainMenu implements Screen {
         buttonStyle.down = skin.getDrawable("buttonpressed");
         buttonStyle.font = font;
 
-        buttonPlay = new TextButton("Play this shizzle!", buttonStyle);
+        buttonPlay = new TextButton("Play", buttonStyle);
         buttonPlay.setPosition(0,0);
 
-        buttonExit = new TextButton("Already wanna exit?", buttonStyle);
+        buttonExit = new TextButton("Quit", buttonStyle);
         buttonExit.setPosition((Gdx.graphics.getWidth() - buttonExit.getWidth()), 0);
 
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
 
         buttonPlay.addListener(new InputListener() {
             @Override
@@ -104,6 +105,7 @@ public class MainMenu implements Screen {
             }
         });
 
+
         buttonExit.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -112,12 +114,12 @@ public class MainMenu implements Screen {
                 return true;
             }
         });
-        table.add(heading);
+        table.add(heading).padBottom(100);
         table.row();
         table.add(buttonPlay);
         table.row();
         table.add(buttonExit);
-        table.debug();
+        //table.debug();    show debug lines
         stage.addActor(table);
     }
 

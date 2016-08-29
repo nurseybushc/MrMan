@@ -259,7 +259,7 @@ public class GameScreen implements Screen{
 
         //Initiate GUI components
         stage = new Stage();
-        font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
+        font = new BitmapFont(Gdx.files.internal("fonts/gamefont.fnt"));
 
         skin = new Skin();
         buttonAtlas = new TextureAtlas("buttons/pause.pack");
