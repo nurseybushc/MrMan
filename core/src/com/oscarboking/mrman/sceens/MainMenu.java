@@ -83,8 +83,8 @@ public class MainMenu implements Screen {
         skin.addRegions(buttonAtlas);
         buttonStyle = new TextButtonStyle();
         buttonStyle.up = skin.getDrawable("button");
-        buttonStyle.over = skin.getDrawable("buttonpressed");
-        buttonStyle.down = skin.getDrawable("buttonpressed");
+        buttonStyle.over = skin.getDrawable("button_down");
+        buttonStyle.down = skin.getDrawable("button_down");
         buttonStyle.font = font;
 
         buttonPlay = new TextButton("Play", buttonStyle);
@@ -116,9 +116,9 @@ public class MainMenu implements Screen {
         });
         table.add(heading).padBottom(100);
         table.row();
-        table.add(buttonPlay);
+        table.add(buttonPlay).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10).padBottom(30);
         table.row();
-        table.add(buttonExit);
+        table.add(buttonExit).width(Gdx.graphics.getWidth()/5).height(Gdx.graphics.getHeight()/10);
         //table.debug();    show debug lines
         stage.addActor(table);
     }
