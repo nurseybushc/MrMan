@@ -3,6 +3,7 @@ package com.oscarboking.mrman;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -64,6 +65,11 @@ public class Player extends Sprite implements InputProcessor{
     public boolean isPlaying;
     public boolean itemOffCooldown;
 
+    //Sounds and music
+    Sound jumpSound;
+    Sound doubleJumpSound;
+    Sound dashSound;
+
 
     public Player(World world, com.oscarboking.mrman.sceens.GameScreen screen, float x, float y, float width, float height){
 
@@ -72,6 +78,8 @@ public class Player extends Sprite implements InputProcessor{
         currentState = State.RUNNING;
         previousState = State.RUNNING;
         stateTimer = 0;
+
+        initializeSounds();
 /*
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i = 1; i <= 3; i++){    //if the running animation has 3 frames
@@ -127,6 +135,13 @@ public class Player extends Sprite implements InputProcessor{
         isPlaying = true;
 
         body.setLinearVelocity(targetSpeed, 0);
+
+    }
+
+    public void initializeSounds(){
+        jumpSound = Gdx.audio.newSound(Gdx.files.internal("music/jump.ogg"));
+        doubleJumpSound = Gdx.audio.newSound(Gdx.files.internal("music/doublejump.ogg"));
+        dashSound = Gdx.audio.newSound(Gdx.files.internal("music/dash.flac"));
 
     }
 
@@ -308,8 +323,6 @@ public class Player extends Sprite implements InputProcessor{
             mainGameScreen.setPauseModeFalse();
         }else {
             if (!isPlaying) {
-                //mainGameScreen.dispose();
-                //mainGameScreen.show();
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new com.oscarboking.mrman.sceens.GameScreen(mainGameScreen.getGame(), false));
                 //mainGameScreen.getGame().setScreen(new GameScreen(mainGameScreen.getGame()));
             }
@@ -318,12 +331,14 @@ public class Player extends Sprite implements InputProcessor{
                 if (body.getLinearVelocity().y == 0.0f && !isAirBound) {
 
                     //normal jump
+                    jumpSound.play(1.0f);
                     body.applyLinearImpulse(jumpVector, body.getWorldCenter(), true);
                     isAirBound = true;
 
                 } else if (canDoubleJump) {
 
                     //double jump
+                    doubleJumpSound.play(1.0f);
                     if (body.getLinearVelocity().y > 0) {
                         doubleJumpVector.set(0, 900f);
                     } else {
@@ -336,6 +351,7 @@ public class Player extends Sprite implements InputProcessor{
             }else {
                 if (offCooldown && item == null) {
 
+                    dashSound.play(1.0f);
                     isUsing = true;
                     body.applyLinearImpulse(dashVector, body.getWorldCenter(), true);
                     offCooldown = false;
