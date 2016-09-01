@@ -11,10 +11,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -27,10 +29,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.oscarboking.mrman.Player;
@@ -99,6 +103,9 @@ public class GameScreen implements Screen{
     InputMultiplexer multiplexer;
 
     Preferences prefs;
+
+    TextureRegionDrawable backgroundImage;
+    Texture backgroundTexture;
 
     public GameScreen(Game game, boolean isFirst){
         this.game = game;
@@ -254,7 +261,8 @@ public class GameScreen implements Screen{
 
         currentScore = 0;
 
-
+        backgroundTexture = new Texture("background.jpg");
+        backgroundImage = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
         atlas = new TextureAtlas("spritesheet.pack");
 
         //Initiate GUI components
@@ -371,6 +379,7 @@ public class GameScreen implements Screen{
         }, player);
 
         table = new Table();
+        table.setBackground(backgroundImage);
         table.setFillParent(true);
         table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand().row();
         table.add(scoreLabel).top().left().expand();
