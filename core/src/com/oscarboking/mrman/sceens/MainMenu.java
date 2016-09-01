@@ -81,6 +81,7 @@ public class MainMenu implements Screen {
         heading.setPosition(Gdx.graphics.getWidth()/2 - heading.getWidth()/2, Gdx.graphics.getHeight() / 2+200);
         heading.setAlignment(Align.center);
         heading.setFontScale(3);
+        heading.setWrap(true);
 
         table = new Table();
         table.setFillParent(true);

@@ -373,7 +373,7 @@ public class Player extends Sprite implements InputProcessor{
                         public void run() {
                             isUsing = false;
                         }
-                    }, 0.3f);
+                    }, 0.4f);
 
                     //Cooldown
                     Timer.schedule(new Timer.Task() {
@@ -381,7 +381,7 @@ public class Player extends Sprite implements InputProcessor{
                         public void run() {
                             offCooldown = true;
                         }
-                    }, 0.6f);
+                    }, 0.7f);
                 } else if (item != null && itemOffCooldown) {
                     cooldown = item.getCooldown();
                     itemOffCooldown = false;

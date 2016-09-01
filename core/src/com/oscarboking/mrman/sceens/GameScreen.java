@@ -170,12 +170,13 @@ public class GameScreen implements Screen{
             player.update(delta);
             levelGenerator.update(camera.position.x + camera.viewportWidth / 2);
 
-            //commented out since the player doesn't have any sprite yet
-             player.draw(batch);
+
 
             currentScore = player.getScore();
 
         }
+        //commented out since the player doesn't have any sprite yet
+        player.draw(batch);
         levelGenerator.draw(batch);
         //we dont need to do this v because of ^, i think
         world.getBodies(tmpBodies);
