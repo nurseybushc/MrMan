@@ -141,8 +141,13 @@ public class Player extends Sprite implements InputProcessor{
     public void initializeSounds(){
         jumpSound = Gdx.audio.newSound(Gdx.files.internal("music/jump.ogg"));
         doubleJumpSound = Gdx.audio.newSound(Gdx.files.internal("music/doublejump.ogg"));
-        dashSound = Gdx.audio.newSound(Gdx.files.internal("music/dash.flac"));
+        //dashSound = Gdx.audio.newSound(Gdx.files.internal("music/dash.flac"));
 
+    }
+    public void dispose(){
+        jumpSound.dispose();
+        doubleJumpSound.dispose();
+        //dashSound.dispose();
     }
 
     public void setVelocity(float xVelocity, float yVelocity){
@@ -351,7 +356,7 @@ public class Player extends Sprite implements InputProcessor{
             }else {
                 if (offCooldown && item == null) {
 
-                    dashSound.play(1.0f);
+                    //dashSound.play(1.0f);
                     isUsing = true;
                     body.applyLinearImpulse(dashVector, body.getWorldCenter(), true);
                     offCooldown = false;

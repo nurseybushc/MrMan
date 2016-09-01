@@ -227,9 +227,6 @@ public class GameScreen implements Screen{
         deathScore.setVisible(true);
         deathHighscore.setVisible(true);
         deathRestartLabel.setVisible(true);
-
-
-
     }
     public void setPauseModeTrue() {
         isPaused = true;
@@ -379,7 +376,6 @@ public class GameScreen implements Screen{
         }, player);
 
         table = new Table();
-        table.setBackground(backgroundImage);
         table.setFillParent(true);
         table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand().row();
         table.add(scoreLabel).top().left().expand();
@@ -395,6 +391,8 @@ public class GameScreen implements Screen{
         table.add(deathRestartLabel).top().center().expand();;
         table.row();
         //table.debug(); //show debug lines
+
+        table.setBackground(backgroundImage);
         stage.addActor(table);
 
         Body ground = world.createBody(groundDef);
@@ -444,6 +442,7 @@ public class GameScreen implements Screen{
         world.dispose();
         debugRenderer.dispose();
         //player.getSprite().getTexture().dispose();
+        player.dispose();
     }
 
 }
