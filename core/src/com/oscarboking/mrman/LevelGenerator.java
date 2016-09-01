@@ -66,17 +66,12 @@ public class LevelGenerator {
         this.world = world;
     }
 
-    public void drawBackground(SpriteBatch batch){
-        //backgroundSprite.draw(batch);
-    }
-
     public void setPlayerX(float x){
         playerX = x;
     }
 
     //re-draw all the sprites (except player)
     public void draw(SpriteBatch batch){
-        drawBackground(batch);
         for(com.oscarboking.mrman.Spawnable sprite : objectInWorld){
             if(!sprite.isFlaggedForKill()) {
                 sprite.redraw(batch);

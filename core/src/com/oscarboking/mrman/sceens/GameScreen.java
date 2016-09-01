@@ -37,6 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.oscarboking.mrman.LevelGenerator;
 import com.oscarboking.mrman.Player;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.oscarboking.mrman.Spawnable;
@@ -132,7 +133,7 @@ public class GameScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-        //batch.begin();
+        batch.begin();
 
         if(!isPaused) {
 
@@ -161,21 +162,18 @@ public class GameScreen implements Screen{
             player.update(delta);
             levelGenerator.update(camera.position.x + camera.viewportWidth / 2);
 
-            //levelGenerator.draw(batch);
-
             //commented out since the player doesn't have any sprite yet
             // player.draw(batch);
 
             currentScore = player.getScore();
-
+            stage.act();
+            stage.draw();
         }
-        batch.begin();
-        backgroundStage.draw();
-        backgroundStage.act();
 
         levelGenerator.draw(batch);
-        //Update background
-        world.getBodies(tmpBodies);
+
+        //we dont need to do this v because of ^, i think
+        /*world.getBodies(tmpBodies);
         for (Body body : tmpBodies) {
             if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
                 Sprite sprite = (Sprite) body.getUserData();
@@ -183,9 +181,8 @@ public class GameScreen implements Screen{
                 sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
                 sprite.draw(batch);
             }
-        }
-        stage.act();
-        stage.draw();
+        }*/
+
         batch.end();
 
         //update GUI
@@ -383,6 +380,7 @@ public class GameScreen implements Screen{
         }, player);
 
         table = new Table();
+        table.setBackground(backgroundImage);
         table.setFillParent(true);
         table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand().row();
         table.add(scoreLabel).top().left().expand();
@@ -398,12 +396,6 @@ public class GameScreen implements Screen{
         table.add(deathRestartLabel).top().center().expand();;
         table.row();
         //table.debug(); //show debug lines
-
-        backgroundTable = new Table();
-        backgroundTable.setBackground(backgroundImage);
-        backgroundStage.addActor(backgroundTable);
-        //TESTA ATT KOMMENTERA BORT DENNA?
-
         stage.addActor(table);
 
         Body ground = world.createBody(groundDef);
@@ -411,7 +403,7 @@ public class GameScreen implements Screen{
 
         groundShape.dispose();
 
-        levelGenerator = new com.oscarboking.mrman.LevelGenerator(world,ground,player.getBody(),this,
+        levelGenerator = new LevelGenerator(world,ground,player.getBody(),this,
                 bottomLeft.y,camera.viewportHeight/2,
                 player.height*70,player.height*150,
                 1, 4, player.height/3);
