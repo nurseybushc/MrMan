@@ -133,7 +133,14 @@ public class GameScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-        //batch.begin();
+
+        //Draws the GUI
+        stage.act();
+        batch.begin();
+        stage.draw();
+        batch.end();
+
+        batch.begin();
 
         if(!isPaused) {
 
@@ -169,11 +176,7 @@ public class GameScreen implements Screen{
             currentScore = player.getScore();
 
         }
-
-        batch.begin();
-
         levelGenerator.draw(batch);
-
         //we dont need to do this v because of ^, i think
         world.getBodies(tmpBodies);
         for (Body body : tmpBodies) {
@@ -184,11 +187,8 @@ public class GameScreen implements Screen{
                 sprite.draw(batch);
             }
         }
-
-
-        stage.act();
-        stage.draw();
         batch.end();
+
 
 
         //update GUI
@@ -387,7 +387,7 @@ public class GameScreen implements Screen{
         }, player);
 
         table = new Table();
-        //table.setBackground(backgroundImage);
+        table.setBackground(backgroundImage);
         table.setFillParent(true);
         table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand().row();
         table.add(scoreLabel).top().left().expand();
