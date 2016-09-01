@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.Align;
+import com.oscarboking.mrman.MyGdxGame;
 
 
 /**
@@ -75,7 +76,7 @@ public class MainMenu implements Screen {
 
         labelStyle = new LabelStyle(font, Color.WHITE);
 
-        heading = new Label(com.oscarboking.mrman.MyGdxGame.TITLE,labelStyle);
+        heading = new Label(MyGdxGame.TITLE,labelStyle);
 
         heading.setPosition(Gdx.graphics.getWidth()/2 - heading.getWidth()/2, Gdx.graphics.getHeight() / 2+200);
         heading.setAlignment(Align.center);

@@ -6,7 +6,7 @@ import com.oscarboking.mrman.sceens.MainMenu;
 public class MyGdxGame extends Game {
 
     private Game game;
-    public static final String TITLE = "Placeholder", VERSION ="0.0.0.0";
+    public static final String TITLE = "LEGEND OF MR MAN", VERSION ="0.0.0.0";
 
     @Override
 	public void create () {
