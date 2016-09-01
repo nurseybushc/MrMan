@@ -171,7 +171,7 @@ public class GameScreen implements Screen{
             levelGenerator.update(camera.position.x + camera.viewportWidth / 2);
 
             //commented out since the player doesn't have any sprite yet
-            // player.draw(batch);
+             player.draw(batch);
 
             currentScore = player.getScore();
 

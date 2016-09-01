@@ -70,10 +70,16 @@ public class Player extends Sprite implements InputProcessor{
     Sound doubleJumpSound;
     Sound dashSound;
 
+    public TextureRegion textureRegion;
+
 
     public Player(World world, com.oscarboking.mrman.sceens.GameScreen screen, float x, float y, float width, float height){
 
-        //super(screen.getTextureAtlas().findRegion("spritesheet"));
+        super(screen.getTextureAtlas().findRegion("wizardbolt"));
+
+        textureRegion = new TextureRegion(getTexture(), 66, 15, 10, 10);
+        setBounds(66/3f,15/3f, 10/3f, 10/ 3f);
+        setRegion(textureRegion);
 
         currentState = State.RUNNING;
         previousState = State.RUNNING;
