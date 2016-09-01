@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -108,6 +109,9 @@ public class GameScreen implements Screen{
     InputMultiplexer multiplexer;
 
     Preferences prefs;
+
+    Sound gameSound;
+    Sound gameOverSound;
 
     TextureRegionDrawable backgroundImage;
     Texture backgroundTexture;
@@ -223,6 +227,8 @@ public class GameScreen implements Screen{
     public void gameOver(){
         //Player has died.
 
+        gameSound.stop();
+        gameOverSound.play();
 
         if(prefs.getInteger("highscore")<currentScore){
             System.out.println("new highscore!");
@@ -240,6 +246,7 @@ public class GameScreen implements Screen{
         deathRestartLabel.setVisible(true);
     }
     public void setPauseModeTrue() {
+        gameSound.pause();
         isPaused = true;
         scoreLabel.setVisible(false);
         pauseLabel.setText("Paused");
@@ -249,6 +256,7 @@ public class GameScreen implements Screen{
     }
 
     public void setPauseModeFalse(){
+        gameSound.resume();
         isPaused=false;
         isFirst = false;
         scoreLabel.setVisible(true);
@@ -269,6 +277,9 @@ public class GameScreen implements Screen{
 
         currentScore = 0;
 
+        gameSound = Gdx.audio.newSound(Gdx.files.internal("music/the_field_of_dreams.mp3"));
+        gameSound.loop(1.0f);
+        gameOverSound = Gdx.audio.newSound(Gdx.files.internal("music/applause.ogg"));
         backgroundTexture = new Texture("forest.png");
         backgroundImage = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
         atlas = new TextureAtlas("spritesheet.pack");
@@ -454,6 +465,8 @@ public class GameScreen implements Screen{
         debugRenderer.dispose();
         //player.getSprite().getTexture().dispose();
         player.dispose();
+        gameSound.dispose();
+        gameOverSound.dispose();
     }
 
 }
