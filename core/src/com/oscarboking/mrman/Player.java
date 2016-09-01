@@ -401,6 +401,10 @@ public class Player extends Sprite implements InputProcessor{
         return true;
     }
 
+    public void addPoints(float points){
+
+    }
+
 
     /*@Override
     public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {

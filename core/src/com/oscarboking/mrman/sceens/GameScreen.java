@@ -269,7 +269,7 @@ public class GameScreen implements Screen{
 
         currentScore = 0;
 
-        backgroundTexture = new Texture("background.jpg");
+        backgroundTexture = new Texture("forest.png");
         backgroundImage = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
         atlas = new TextureAtlas("spritesheet.pack");
 
