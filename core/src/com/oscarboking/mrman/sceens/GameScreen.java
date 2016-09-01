@@ -43,6 +43,8 @@ import com.oscarboking.mrman.Spawnable;
 import com.oscarboking.mrman.listeners.CollisionDetector;
 import java.util.List;
 
+import javafx.scene.control.Tab;
+
 /**
  * Created by Boking on 2016-07-17.
  */
@@ -83,7 +85,9 @@ public class GameScreen implements Screen{
     private Label scoreLabel;
     private LabelStyle textStyle;
     private Stage stage;
+    private Stage backgroundStage;
     private Table table;
+    private Table backgroundTable;
     private Label deathLabel;
     private Label deathScore;
     private Label deathHighscore;
@@ -128,7 +132,7 @@ public class GameScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-        batch.begin();
+        //batch.begin();
 
         if(!isPaused) {
 
@@ -165,7 +169,12 @@ public class GameScreen implements Screen{
             currentScore = player.getScore();
 
         }
+        batch.begin();
+        backgroundStage.draw();
+        backgroundStage.act();
+
         levelGenerator.draw(batch);
+        //Update background
         world.getBodies(tmpBodies);
         for (Body body : tmpBodies) {
             if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
@@ -175,13 +184,10 @@ public class GameScreen implements Screen{
                 sprite.draw(batch);
             }
         }
-
-        batch.end();
-        //Draws the GUI
         stage.act();
-        batch.begin();
         stage.draw();
         batch.end();
+
         //update GUI
         scoreLabel.setText(String.format("%.0f", currentScore));
 
@@ -264,6 +270,7 @@ public class GameScreen implements Screen{
 
         //Initiate GUI components
         stage = new Stage();
+        backgroundStage = new Stage();
         font = new BitmapFont(Gdx.files.internal("fonts/gamefont.fnt"));
 
         skin = new Skin();
@@ -392,7 +399,11 @@ public class GameScreen implements Screen{
         table.row();
         //table.debug(); //show debug lines
 
-        table.setBackground(backgroundImage);
+        backgroundTable = new Table();
+        backgroundTable.setBackground(backgroundImage);
+        backgroundStage.addActor(backgroundTable);
+        //TESTA ATT KOMMENTERA BORT DENNA?
+
         stage.addActor(table);
 
         Body ground = world.createBody(groundDef);
