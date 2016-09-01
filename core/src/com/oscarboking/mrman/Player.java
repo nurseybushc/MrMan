@@ -70,6 +70,8 @@ public class Player extends Sprite implements InputProcessor{
     Sound doubleJumpSound;
     Sound dashSound;
 
+    public float killScore;
+
     public TextureRegion textureRegion;
 
 
@@ -84,6 +86,7 @@ public class Player extends Sprite implements InputProcessor{
         currentState = State.RUNNING;
         previousState = State.RUNNING;
         stateTimer = 0;
+        killScore = 0;
 
         initializeSounds();
 /*
@@ -171,6 +174,13 @@ public class Player extends Sprite implements InputProcessor{
     public void equipItem(Usable item){
         //diplay something?
         this.item = item;
+    }
+
+    public void increaseKillScore(float value){
+        killScore +=value;
+    }
+    public float getKillScore(){
+        return killScore;
     }
 
     public void restoreVelocity(){

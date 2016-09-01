@@ -104,6 +104,7 @@ public class CollisionDetector implements ContactListener {
             if(player.isUsing()){
                 Gdx.app.log("HIT","KILLED WIZARD");
                 wizard.destroy();
+                player.increaseKillScore(20);
                 player.setVelocity(xVelocity,player.getBody().getLinearVelocity().y);
             }else{
                 Gdx.app.log("HIT","DEATH BY WIZARD");

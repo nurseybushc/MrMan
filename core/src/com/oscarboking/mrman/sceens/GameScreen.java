@@ -197,7 +197,7 @@ public class GameScreen implements Screen{
 
 
         //update GUI
-        scoreLabel.setText(String.format("%.0f", currentScore));
+        scoreLabel.setText(String.format("%.0f", currentScore + player.getKillScore()));
 
         //ENABLED DEBUG RENDERING
         debugRenderer.render(world, camera.combined);
