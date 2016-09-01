@@ -72,7 +72,7 @@ public class LevelGenerator {
 
     //re-draw all the sprites (except player)
     public void draw(SpriteBatch batch){
-        for(com.oscarboking.mrman.Spawnable sprite : objectInWorld){
+        for(Spawnable sprite : objectInWorld){
             if(!sprite.isFlaggedForKill()) {
                 sprite.redraw(batch);
             }
@@ -85,7 +85,7 @@ public class LevelGenerator {
 
         if (bottomRight > 100) {
             //update current objects as well
-            for (com.oscarboking.mrman.Spawnable o : objectInWorld) {
+            for (Spawnable o : objectInWorld) {
                 o.update();
             }
 

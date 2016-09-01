@@ -123,7 +123,7 @@ public class GameScreen implements Screen{
         return game;
     }
 
-    public List<com.oscarboking.mrman.Spawnable> getObjectInWorld(){
+    public List<Spawnable> getObjectInWorld(){
         return levelGenerator.getObjectInWorld();
     }
 
@@ -133,11 +133,12 @@ public class GameScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-        batch.begin();
+        //batch.begin();
 
         if(!isPaused) {
 
             levelGenerator.setPlayerX(player.getX());
+
 
             if (!player.isAlive()) {
                 gameOver();
@@ -166,14 +167,15 @@ public class GameScreen implements Screen{
             // player.draw(batch);
 
             currentScore = player.getScore();
-            stage.act();
-            stage.draw();
+
         }
+
+        batch.begin();
 
         levelGenerator.draw(batch);
 
         //we dont need to do this v because of ^, i think
-        /*world.getBodies(tmpBodies);
+        world.getBodies(tmpBodies);
         for (Body body : tmpBodies) {
             if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
                 Sprite sprite = (Sprite) body.getUserData();
@@ -181,15 +183,20 @@ public class GameScreen implements Screen{
                 sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
                 sprite.draw(batch);
             }
-        }*/
+        }
 
+
+        stage.act();
+        stage.draw();
         batch.end();
+
 
         //update GUI
         scoreLabel.setText(String.format("%.0f", currentScore));
 
         //ENABLED DEBUG RENDERING
         debugRenderer.render(world, camera.combined);
+
 
         if(isFirst){
             System.out.println("isfirst we should pause");
@@ -380,7 +387,7 @@ public class GameScreen implements Screen{
         }, player);
 
         table = new Table();
-        table.setBackground(backgroundImage);
+        //table.setBackground(backgroundImage);
         table.setFillParent(true);
         table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand().row();
         table.add(scoreLabel).top().left().expand();
