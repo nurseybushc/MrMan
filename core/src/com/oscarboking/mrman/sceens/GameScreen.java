@@ -116,6 +116,8 @@ public class GameScreen implements Screen{
     TextureRegionDrawable backgroundImage;
     Texture backgroundTexture;
 
+    private boolean deathScreenTimer;
+
     public GameScreen(Game game, boolean isFirst){
         this.game = game;
         this.isFirst = isFirst;
@@ -131,6 +133,9 @@ public class GameScreen implements Screen{
         return levelGenerator.getObjectInWorld();
     }
 
+    public boolean getDeathScreenTimer(){
+        return deathScreenTimer;
+    }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 0 / 255f, 1);
@@ -227,6 +232,13 @@ public class GameScreen implements Screen{
     public void gameOver(){
         //Player has died.
 
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                deathScreenTimer = false;
+            }
+        }, 0.6f);
+
         gameSound.stop();
         gameOverSound.play();
 
@@ -283,6 +295,8 @@ public class GameScreen implements Screen{
         backgroundTexture = new Texture("forest.png");
         backgroundImage = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
         atlas = new TextureAtlas("spritesheet.pack");
+
+        deathScreenTimer = true;
 
         //Initiate GUI components
         stage = new Stage();

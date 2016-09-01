@@ -344,8 +344,10 @@ public class Player extends Sprite implements InputProcessor{
             mainGameScreen.setPauseModeFalse();
         }else {
             if (!isPlaying) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new com.oscarboking.mrman.sceens.GameScreen(mainGameScreen.getGame(), false));
-                //mainGameScreen.getGame().setScreen(new GameScreen(mainGameScreen.getGame()));
+                if(!mainGameScreen.getDeathScreenTimer()) {
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(mainGameScreen.getGame(), false));
+                    //mainGameScreen.getGame().setScreen(new GameScreen(mainGameScreen.getGame()));
+                }
             }
             if (screenX < Gdx.graphics.getWidth() / 2) {
 
