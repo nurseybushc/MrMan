@@ -78,6 +78,7 @@ public class GameScreen implements Screen{
     private com.oscarboking.mrman.LevelGenerator levelGenerator;
 
     private TextureAtlas atlas;
+    private TextureAtlas characterAtlas;
 
     private boolean isPaused;
 
@@ -98,6 +99,7 @@ public class GameScreen implements Screen{
     private Label pauseLabel;
 
     private TextureAtlas buttonAtlas;
+
     private TextButton.TextButtonStyle buttonStyle;
 
     public static final short DEFAULT = 1;
@@ -229,6 +231,10 @@ public class GameScreen implements Screen{
         return atlas;
     }
 
+    public TextureAtlas getCharacterAtlas(){
+        return characterAtlas;
+    }
+
     public void gameOver(){
         //Player has died.
 
@@ -295,6 +301,8 @@ public class GameScreen implements Screen{
         backgroundTexture = new Texture("forest.png");
         backgroundImage = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
         atlas = new TextureAtlas("spritesheet.pack");
+        characterAtlas = new TextureAtlas("characterpack.pack");
+
 
         deathScreenTimer = true;
 

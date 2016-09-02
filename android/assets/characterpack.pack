@@ -1,0 +1,12 @@
+
+characterpack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Samurai
+  rotate: false
+  xy: 1, 1
+  size: 247, 241
+  orig: 247, 241
+  offset: 0, 0
+  index: -1
