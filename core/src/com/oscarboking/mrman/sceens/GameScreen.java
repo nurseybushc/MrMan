@@ -146,9 +146,9 @@ public class GameScreen implements Screen{
         batch.setProjectionMatrix(camera.combined);
 
         //Draws the GUI
-        stage.act();
+        backgroundStage.act();
         batch.begin();
-        stage.draw();
+        backgroundStage.draw();
         batch.end();
 
         batch.begin();
@@ -201,7 +201,11 @@ public class GameScreen implements Screen{
         }
         batch.end();
 
-
+        //Draws the GUI
+        stage.act();
+        batch.begin();
+        stage.draw();
+        batch.end();
 
         //update GUI
         scoreLabel.setText(String.format("%.0f", currentScore + player.getKillScore()));
@@ -309,6 +313,7 @@ public class GameScreen implements Screen{
         //Initiate GUI components
         stage = new Stage();
         backgroundStage = new Stage();
+        backgroundTable = new Table();
         font = new BitmapFont(Gdx.files.internal("fonts/gamefont.fnt"));
 
         skin = new Skin();
@@ -420,8 +425,12 @@ public class GameScreen implements Screen{
             }
         }, player);
 
+        backgroundTable.setBackground(backgroundImage);
+        backgroundTable.setFillParent(true);
+        backgroundStage.addActor(backgroundTable);
+
         table = new Table();
-        table.setBackground(backgroundImage);
+        //table.setBackground(backgroundImage);
         table.setFillParent(true);
         table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand().row();
         table.add(scoreLabel).top().left().expand();
