@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.oscarboking.mrman.sceens.GameScreen;
 
@@ -77,11 +78,7 @@ public class Player extends Sprite implements InputProcessor{
 
     public Player(World world, com.oscarboking.mrman.sceens.GameScreen screen, float x, float y, float width, float height){
 
-        super(screen.getTextureAtlas().findRegion("wizardbolt"));
-
-        textureRegion = new TextureRegion(getTexture(), 66, 15, 10, 10);
-        setBounds(66/3f,15/3f, 10/3f, 10/ 3f);
-        setRegion(textureRegion);
+        super(screen.getCharacterAtlas().findRegion("Samurai"));
 
         currentState = State.RUNNING;
         previousState = State.RUNNING;
@@ -89,13 +86,14 @@ public class Player extends Sprite implements InputProcessor{
         killScore = 0;
 
         initializeSounds();
-/*
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        for(int i = 1; i <= 3; i++){    //if the running animation has 3 frames
-            frames.add(new TextureRegion(getTexture(),i*336,0,76,120));
+        for(int i = 0; i <= 5; i++){    //if the running animation has 6 frames
+            frames.add(new TextureRegion(getTexture(),45,5+(30*i),30,22));
         }
         playerRun = new Animation(0.1f,frames);
         frames.clear();
+        /*
 
         for(int i = 1; i <= 3; i++){    //if the jumping animation has 3 frames
             frames.add(new TextureRegion(getTexture(),i*336,0,76,120));
@@ -142,6 +140,10 @@ public class Player extends Sprite implements InputProcessor{
         isAlive = true;
 
         isPlaying = true;
+
+        textureRegion = new TextureRegion(getTexture(), 0, 0, 32, 32);
+        setBounds(0/3f,0/3f, 32/5.5f, 32/ 5.5f);
+        setRegion(textureRegion);
 
         body.setLinearVelocity(targetSpeed, 0);
 
@@ -196,7 +198,7 @@ public class Player extends Sprite implements InputProcessor{
                 region = playerJump.getKeyFrame(stateTimer);
                 break;
             case RUNNING:
-                region = playerRun.getKeyFrame(stateTimer);
+                region = playerRun.getKeyFrame(stateTimer,true);
                 break;
             case DASHING:
                 region = playerDash.getKeyFrame(stateTimer);
@@ -213,6 +215,8 @@ public class Player extends Sprite implements InputProcessor{
     }
 
     public State getState(){
+        return State.RUNNING;
+        /*
         if(body.getLinearVelocity().y>0){
             return State.JUMPING;
         }else if (body.getLinearVelocity().y<0){
@@ -223,6 +227,7 @@ public class Player extends Sprite implements InputProcessor{
             else
                 return State.RUNNING;
         }
+        */
     }
     public void setAlive(boolean alive){
         isAlive = alive;
@@ -236,11 +241,11 @@ public class Player extends Sprite implements InputProcessor{
     }
     public void update(float dt){
 
-        //setRegion(getFrame(dt));
+        setRegion(getFrame(dt));
 
 
         //update where the sprite is
-        setPosition(body.getPosition().x-width*2,body.getPosition().y-height*2);
+        setPosition(body.getPosition().x-width*2-1,body.getPosition().y-height*2);
 
         if(targetSpeed > body.getLinearVelocity().x && isAlive){
             body.setLinearVelocity(targetSpeed,0);
