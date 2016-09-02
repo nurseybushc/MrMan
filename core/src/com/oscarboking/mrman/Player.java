@@ -93,13 +93,15 @@ public class Player extends Sprite implements InputProcessor{
         }
         playerRun = new Animation(0.1f,frames);
         frames.clear();
-        /*
 
-        for(int i = 1; i <= 3; i++){    //if the jumping animation has 3 frames
-            frames.add(new TextureRegion(getTexture(),i*336,0,76,120));
+
+        for(int i = 0; i <= 3; i++){    //if the jumping animation has 4 frames
+            frames.add(new TextureRegion(getTexture(),90,5+(30*i),30,22));
         }
         playerJump = new Animation(0.1f,frames);
         frames.clear();
+
+        /*
         for(int i = 1; i <= 3; i++){    //if the dash animation has 3 frames
             frames.add(new TextureRegion(getTexture(),i*336,0,76,120));
         }
@@ -215,7 +217,12 @@ public class Player extends Sprite implements InputProcessor{
     }
 
     public State getState(){
-        return State.RUNNING;
+
+        if(body.getLinearVelocity().y>0){
+            return State.JUMPING;
+        }else{
+            return State.RUNNING;
+        }
         /*
         if(body.getLinearVelocity().y>0){
             return State.JUMPING;
@@ -227,7 +234,7 @@ public class Player extends Sprite implements InputProcessor{
             else
                 return State.RUNNING;
         }
-        */
+    */
     }
     public void setAlive(boolean alive){
         isAlive = alive;
