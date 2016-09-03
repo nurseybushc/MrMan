@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -40,16 +41,15 @@ public class LevelGenerator {
 
     private float lastEnd;
 
+    private Ground firstGround;
+    private Ground secondGround;
+
     //item drops
     PistolDrop pistolDrop;
 
     public LevelGenerator(World world, Body environment, Body playerBody, GameScreen screen,
                           float bottomBound, float upperBound, float minGap, float maxGap,
                           float minWidth, float maxWidth, float height){
-
-
-       // backgroundTexture = new Texture("background.jpg");
-       // backgroundSprite = new Sprite(backgroundTexture);
 
         this.screen = screen;
         this.playerBody = playerBody;
@@ -62,6 +62,15 @@ public class LevelGenerator {
         this.minWidth = minWidth;
         this.maxWidth = maxWidth;
         this.height = height;
+
+        //(10,-12,20,4)
+        firstGround = new Ground(world,screen,20,-12,20,4);
+        secondGround = new Ground(world,screen,100,-12,20,4);
+        System.out.println("getbody position: " + firstGround.getBody().getPosition().x);
+        System.out.println("getbodydef position: "+ firstGround.getBodyDef().position.x);
+        System.out.println("getspriteX : "+ firstGround.getSpriteX());
+        objectInWorld.add(firstGround);
+        objectInWorld.add(secondGround);
 
         this.world = world;
     }
@@ -167,7 +176,7 @@ public class LevelGenerator {
                 world.destroyBody(object.getBody());
                 iterator.remove();
                 Gdx.app.log("KILL", "REMOVE BECAUSE FLAG");
-            }else if (playerX > object.getX()){
+            }else if (playerX > object.getX() + 30){
                 world.destroyBody(object.getBody());
                 iterator.remove();
                 Gdx.app.log("KILL", "Killing object");

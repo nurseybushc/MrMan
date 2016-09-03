@@ -79,6 +79,7 @@ public class GameScreen implements Screen{
 
     private TextureAtlas atlas;
     private TextureAtlas characterAtlas;
+    private TextureAtlas groundAtlas;
 
     private boolean isPaused;
 
@@ -190,7 +191,7 @@ public class GameScreen implements Screen{
         player.draw(batch);
         levelGenerator.draw(batch);
         //we dont need to do this v because of ^, i think
-        world.getBodies(tmpBodies);
+        /*world.getBodies(tmpBodies);
         for (Body body : tmpBodies) {
             if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
                 Sprite sprite = (Sprite) body.getUserData();
@@ -198,7 +199,7 @@ public class GameScreen implements Screen{
                 sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
                 sprite.draw(batch);
             }
-        }
+        }*/
         batch.end();
 
         //Draws the GUI
@@ -237,6 +238,10 @@ public class GameScreen implements Screen{
 
     public TextureAtlas getCharacterAtlas(){
         return characterAtlas;
+    }
+
+    public TextureAtlas getGroundAtlas(){
+        return groundAtlas;
     }
 
     public void gameOver(){
@@ -306,6 +311,7 @@ public class GameScreen implements Screen{
         backgroundImage = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
         atlas = new TextureAtlas("spritesheet.pack");
         characterAtlas = new TextureAtlas("characterpack.pack");
+        groundAtlas = new TextureAtlas("ground.pack");
 
 
         deathScreenTimer = true;
