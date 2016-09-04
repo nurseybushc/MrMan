@@ -92,6 +92,7 @@ public class Player extends Sprite implements InputProcessor{
             frames.add(new TextureRegion(getTexture(),45,5+(30*i),30,22));
         }
         playerRun = new Animation(0.1f,frames);
+        playerRun = new Animation(0.1f,frames);
         frames.clear();
 
 
@@ -366,14 +367,18 @@ public class Player extends Sprite implements InputProcessor{
                 if (body.getLinearVelocity().y == 0.0f && !isAirBound) {
 
                     //normal jump
-                    jumpSound.play(1.0f);
+                    if(Settings.isSoundEnabled()) {
+                        jumpSound.play(1.0f);
+                    }
                     body.applyLinearImpulse(jumpVector, body.getWorldCenter(), true);
                     isAirBound = true;
 
                 } else if (canDoubleJump) {
 
                     //double jump
-                    doubleJumpSound.play(1.0f);
+                    if(Settings.isSoundEnabled()) {
+                        doubleJumpSound.play(1.0f);
+                    }
                     if (body.getLinearVelocity().y > 0) {
                         doubleJumpVector.set(0, 900f);
                     } else {

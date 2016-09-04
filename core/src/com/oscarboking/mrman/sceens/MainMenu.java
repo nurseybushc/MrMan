@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.Align;
 import com.oscarboking.mrman.MyGdxGame;
+import com.oscarboking.mrman.Settings;
 
 
 /**
@@ -106,7 +107,9 @@ public class MainMenu implements Screen {
         buttonPlay.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                menuSelectSound.play(1.0f);
+                if(Settings.isSoundEnabled()) {
+                    menuSelectSound.play(1.0f);
+                }
                 System.out.println("clicked play!");
                 game.setScreen(new GameScreen(game,true));
                 //((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
@@ -117,7 +120,9 @@ public class MainMenu implements Screen {
         buttonStats.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                menuSelectSound.play(1.0f);
+                if(Settings.isSoundEnabled()) {
+                    menuSelectSound.play(1.0f);
+                }
                 System.out.println("clicked stats!");
                 //game.setScreen(new StatScreen(game,true));
                 return true;
@@ -127,9 +132,11 @@ public class MainMenu implements Screen {
         buttonOptions.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                menuSelectSound.play(1.0f);
+                if(Settings.isSoundEnabled()) {
+                    menuSelectSound.play(1.0f);
+                }
                 System.out.println("clicked options!");
-                //game.setScreen(new OptionScreen(game,true));
+                game.setScreen(new OptionsMenu(game));
                 return true;
             }
         });
@@ -137,7 +144,9 @@ public class MainMenu implements Screen {
         buttonLeaderboard.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                menuSelectSound.play(1.0f);
+                if(Settings.isSoundEnabled()) {
+                    menuSelectSound.play(1.0f);
+                }
                 System.out.println("clicked leaderboard!");
                 return true;
             }

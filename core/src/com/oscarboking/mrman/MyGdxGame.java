@@ -11,6 +11,7 @@ public class MyGdxGame extends Game {
     @Override
 	public void create () {
         game=this;
+		Settings.update();
         setScreen(new MainMenu(game));
 	}
 

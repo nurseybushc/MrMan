@@ -41,6 +41,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.oscarboking.mrman.LevelGenerator;
 import com.oscarboking.mrman.Player;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.oscarboking.mrman.Settings;
 import com.oscarboking.mrman.Spawnable;
 import com.oscarboking.mrman.listeners.CollisionDetector;
 import java.util.List;
@@ -255,7 +256,9 @@ public class GameScreen implements Screen{
         }, 0.6f);
 
         gameSound.stop();
-        gameOverSound.play();
+        if(Settings.isSoundEnabled()) {
+            gameOverSound.play();
+        }
 
         if(prefs.getInteger("highscore")<currentScore){
             System.out.println("new highscore!");
@@ -283,7 +286,9 @@ public class GameScreen implements Screen{
     }
 
     public void setPauseModeFalse(){
-        gameSound.resume();
+        if(Settings.isMusicEnabled()) {
+            gameSound.resume();
+        }
         isPaused=false;
         isFirst = false;
         scoreLabel.setVisible(true);
@@ -305,7 +310,9 @@ public class GameScreen implements Screen{
         currentScore = 0;
 
         gameSound = Gdx.audio.newSound(Gdx.files.internal("music/the_field_of_dreams.mp3"));
-        gameSound.loop(1.0f);
+        if(Settings.isMusicEnabled()) {
+            gameSound.loop(1.0f);
+        }
         gameOverSound = Gdx.audio.newSound(Gdx.files.internal("music/applause.ogg"));
         backgroundTexture = new Texture("forest.png");
         backgroundImage = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
