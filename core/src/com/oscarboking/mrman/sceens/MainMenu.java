@@ -110,7 +110,6 @@ public class MainMenu implements Screen {
                 if(Settings.isSoundEnabled()) {
                     menuSelectSound.play(1.0f);
                 }
-                System.out.println("clicked play!");
                 game.setScreen(new GameScreen(game,true));
                 //((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
                 return true;
@@ -123,8 +122,7 @@ public class MainMenu implements Screen {
                 if(Settings.isSoundEnabled()) {
                     menuSelectSound.play(1.0f);
                 }
-                System.out.println("clicked stats!");
-                //game.setScreen(new StatScreen(game,true));
+                game.setScreen(new StatsScreen(game));
                 return true;
             }
         });
@@ -135,7 +133,6 @@ public class MainMenu implements Screen {
                 if(Settings.isSoundEnabled()) {
                     menuSelectSound.play(1.0f);
                 }
-                System.out.println("clicked options!");
                 game.setScreen(new OptionsMenu(game));
                 return true;
             }

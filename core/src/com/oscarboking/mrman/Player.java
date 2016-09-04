@@ -3,6 +3,7 @@ package com.oscarboking.mrman;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -72,9 +73,9 @@ public class Player extends Sprite implements InputProcessor{
     Sound dashSound;
 
     public float killScore;
+    public int killsThisRound;
 
     public TextureRegion textureRegion;
-
 
     public Player(World world, com.oscarboking.mrman.sceens.GameScreen screen, float x, float y, float width, float height){
 
@@ -84,6 +85,7 @@ public class Player extends Sprite implements InputProcessor{
         previousState = State.RUNNING;
         stateTimer = 0;
         killScore = 0;
+        killsThisRound = 0;
 
         initializeSounds();
 
@@ -181,7 +183,12 @@ public class Player extends Sprite implements InputProcessor{
         this.item = item;
     }
 
+    public int getKillsThisRound(){
+        return killsThisRound;
+    }
+
     public void increaseKillScore(float value){
+        killsThisRound++;
         killScore +=value;
     }
     public float getKillScore(){

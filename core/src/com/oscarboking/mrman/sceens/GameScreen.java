@@ -255,6 +255,11 @@ public class GameScreen implements Screen{
             }
         }, 0.6f);
 
+        int newTotalKills = prefs.getInteger("totalKills",0) + player.getKillsThisRound();
+
+        prefs.putInteger("totalKills",newTotalKills);
+        prefs.flush();
+
         gameSound.stop();
         if(Settings.isSoundEnabled()) {
             gameOverSound.play();
