@@ -36,8 +36,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.oscarboking.mrman.GameOverTable;
 import com.oscarboking.mrman.LevelGenerator;
 import com.oscarboking.mrman.Player;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -93,12 +95,9 @@ public class GameScreen implements Screen{
     private Stage backgroundStage;
     private Table table;
     private Table backgroundTable;
-    private Label deathLabel;
-    private Label deathScore;
-    private Label deathHighscore;
-    private Label deathRestartLabel;
     private TextButton pauseButton;
-    private Label pauseLabel;
+
+    private GameOverTable gameOverTable;
 
     private TextureAtlas buttonAtlas;
 
@@ -219,8 +218,6 @@ public class GameScreen implements Screen{
         if(isFirst){
             System.out.println("isfirst we should pause");
             setPauseModeTrue();
-            pauseLabel.setText("<- Tap left side to Jump \nTap right side to dash/use item ->");
-            deathScore.setVisible(false);
         }
 
     }
@@ -266,29 +263,19 @@ public class GameScreen implements Screen{
             gameOverSound.play();
         }
 
-        if(prefs.getInteger("highscore")<currentScore){
-            System.out.println("new highscore!");
-            prefs.putInteger("highscore", Math.round(currentScore));
-            prefs.flush();
-            deathHighscore.setText("Highscore: "+Integer.toString(Math.round(currentScore)));
-        }
+        gameOverTable = new GameOverTable(Math.round(currentScore));
+        gameOverTable.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        table.clear();
+        stage.addActor(gameOverTable);
 
         player.getBody().setLinearVelocity(0, 0);
-        scoreLabel.setVisible(false);
-        deathLabel.setVisible(true);
-        deathScore.setText(Integer.toString(Math.round(currentScore)));
-        deathScore.setVisible(true);
-        deathHighscore.setVisible(true);
-        deathRestartLabel.setVisible(true);
     }
     public void setPauseModeTrue() {
+        if(Settings.isMusicEnabled()) {
+            gameSound.resume();
+        }
         gameSound.pause();
         isPaused = true;
-        scoreLabel.setVisible(false);
-        pauseLabel.setText("Paused");
-        pauseLabel.setVisible(true);
-        deathScore.setText("Score: " + String.format("%.0f", currentScore));
-        deathScore.setVisible(true);
     }
 
     public void setPauseModeFalse(){
@@ -297,9 +284,6 @@ public class GameScreen implements Screen{
         }
         isPaused=false;
         isFirst = false;
-        scoreLabel.setVisible(true);
-        pauseLabel.setVisible(false);
-        deathScore.setVisible(false);
     }
 
     public Player getPlayer(){
@@ -364,36 +348,7 @@ public class GameScreen implements Screen{
         textStyle = new LabelStyle(font, Color.WHITE);
         scoreLabel = new Label(Float.toString((currentScore / 1000) * 1000), textStyle);
         scoreLabel.setPosition(Gdx.graphics.getWidth() / 2 - scoreLabel.getWidth(), Gdx.graphics.getHeight() / 2);
-        scoreLabel.setFontScale(2);
-
-        pauseLabel = new Label("Paused", textStyle);
-        pauseLabel.setPosition(Gdx.graphics.getWidth() / 2 - pauseLabel.getWidth(), Gdx.graphics.getHeight() / 2);
-        pauseLabel.setFontScale(2);
-
-        if(!isFirst){
-            pauseLabel.setVisible(false);
-        }
-
-        deathLabel = new Label("Game Over!", textStyle);
-        deathLabel.setPosition(Gdx.graphics.getWidth() - deathLabel.getWidth(), Gdx.graphics.getHeight());
-        deathLabel.setFontScale(3);
-        deathLabel.setVisible(false);
-
-        deathScore = new Label("Score: " + String.format("%.0f", currentScore), textStyle);
-        deathScore.setPosition(Gdx.graphics.getWidth() - deathScore.getWidth(), Gdx.graphics.getHeight() + deathScore.getHeight() * 2);
-        deathScore.setFontScale(3);
-        deathScore.setVisible(false);
-
-        deathHighscore = new Label("Highscore: " + Integer.toString(prefs.getInteger("highscore")), textStyle);
-        deathHighscore.setPosition(Gdx.graphics.getWidth() - deathHighscore.getWidth(), Gdx.graphics.getHeight() + deathHighscore.getHeight() * 2);
-        deathHighscore.setFontScale(1.5f);
-        deathHighscore.setVisible(false);
-
-        deathRestartLabel = new Label("Tap to restart!", textStyle);
-        deathRestartLabel.setPosition(Gdx.graphics.getWidth() - deathRestartLabel.getWidth(), Gdx.graphics.getHeight() + deathRestartLabel.getHeight() * 2);
-        deathRestartLabel.setFontScale(3);
-        deathRestartLabel.setVisible(false);
-
+        scoreLabel.setFontScale(3);
 
         world = new World(new Vector2(0,-100.0f),true);
 
@@ -451,18 +406,9 @@ public class GameScreen implements Screen{
         table = new Table();
         //table.setBackground(backgroundImage);
         table.setFillParent(true);
-        table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand().row();
-        table.add(scoreLabel).top().left().expand();
+        table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand();
+        table.add(scoreLabel).top().right().expand();
         table.row();
-        table.add(pauseLabel).top().center().expand();
-        table.row();
-        table.add(deathLabel).padBottom(deathLabel.getHeight() * 2).top().center().expand();;
-        table.row();
-        table.add(deathScore).padBottom(deathScore.getHeight()).top().center().expand();;
-        table.row();
-        table.add(deathHighscore).padBottom(deathHighscore.getHeight() * 2).top().center().expand();;
-        table.row();
-        table.add(deathRestartLabel).top().center().expand();;
         table.row();
         //table.debug(); //show debug lines
         stage.addActor(table);
