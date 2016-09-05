@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
@@ -21,6 +22,7 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
+        googlePlayVersion = '9.4.0'
     }
 
     repositories {
@@ -38,7 +40,6 @@ project(":android") {
 
     dependencies {
         compile project(":core")
-        compile 'com.google.android.gms:play-services:9.4.0'
         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
@@ -54,7 +55,9 @@ project(":android") {
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
+        compile "com.google.android.gms:play-services:$googlePlayVersion"
     }
+    //apply plugin: 'com.google.gms.google-services'
 }
 
 project(":core") {
