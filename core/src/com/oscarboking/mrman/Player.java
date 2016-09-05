@@ -74,6 +74,7 @@ public class Player extends Sprite implements InputProcessor{
 
     public float killScore;
     public int killsThisRound;
+    public int jumpsThisRound;
 
     public TextureRegion textureRegion;
 
@@ -86,6 +87,7 @@ public class Player extends Sprite implements InputProcessor{
         stateTimer = 0;
         killScore = 0;
         killsThisRound = 0;
+        jumpsThisRound = 0;
 
         initializeSounds();
 
@@ -186,6 +188,7 @@ public class Player extends Sprite implements InputProcessor{
     public int getKillsThisRound(){
         return killsThisRound;
     }
+    public int getJumpsThisRound(){return jumpsThisRound;}
 
     public void increaseKillScore(float value){
         killsThisRound++;
@@ -372,7 +375,7 @@ public class Player extends Sprite implements InputProcessor{
             if (screenX < Gdx.graphics.getWidth() / 2) {
 
                 if (body.getLinearVelocity().y == 0.0f && !isAirBound) {
-
+                    jumpsThisRound++;
                     //normal jump
                     if(Settings.isSoundEnabled()) {
                         jumpSound.play(1.0f);
@@ -381,7 +384,7 @@ public class Player extends Sprite implements InputProcessor{
                     isAirBound = true;
 
                 } else if (canDoubleJump) {
-
+                    jumpsThisRound++;
                     //double jump
                     if(Settings.isSoundEnabled()) {
                         doubleJumpSound.play(1.0f);

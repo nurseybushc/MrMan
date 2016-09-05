@@ -256,8 +256,9 @@ public class GameScreen implements Screen{
         }, 0.6f);
 
         int newTotalKills = prefs.getInteger("totalKills",0) + player.getKillsThisRound();
-
+        int newTotalJumps = prefs.getInteger("totalJumps",0) + player.getJumpsThisRound();
         prefs.putInteger("totalKills",newTotalKills);
+        prefs.putInteger("totalJumps",newTotalJumps);
         prefs.flush();
 
         gameSound.stop();
