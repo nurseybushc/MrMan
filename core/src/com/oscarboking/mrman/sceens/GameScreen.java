@@ -41,6 +41,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.oscarboking.mrman.GameOverTable;
 import com.oscarboking.mrman.LevelGenerator;
+import com.oscarboking.mrman.PauseTable;
 import com.oscarboking.mrman.Player;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.oscarboking.mrman.Settings;
@@ -98,6 +99,7 @@ public class GameScreen implements Screen{
     private TextButton pauseButton;
 
     private GameOverTable gameOverTable;
+    private PauseTable pauseTable;
 
     private TextureAtlas buttonAtlas;
 
@@ -271,17 +273,29 @@ public class GameScreen implements Screen{
         player.getBody().setLinearVelocity(0, 0);
     }
     public void setPauseModeTrue() {
-        if(Settings.isMusicEnabled()) {
-            gameSound.resume();
+        if(Settings.isMusicEnabled() && !isFirst) {
+            pauseTable = new PauseTable(Math.round(currentScore));
+            pauseTable.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+            table.clear();
+            stage.addActor(pauseTable);
         }
+
         gameSound.pause();
         isPaused = true;
     }
 
     public void setPauseModeFalse(){
-        if(Settings.isMusicEnabled()) {
+        if(Settings.isMusicEnabled() && !isFirst) {
             gameSound.resume();
+            pauseTable.clear();
+            table.setFillParent(true);
+            table.add(pauseButton).width(90).padLeft(8).padTop(8).top().left().expand();
+            table.add(scoreLabel).top().right().expand();
+            table.row();
+            //table.debug(); //show debug lines
+            stage.addActor(table);
         }
+
         isPaused=false;
         isFirst = false;
     }
@@ -320,13 +334,14 @@ public class GameScreen implements Screen{
         font = new BitmapFont(Gdx.files.internal("fonts/gamefont.fnt"));
 
         skin = new Skin();
-        buttonAtlas = new TextureAtlas("buttons/pause.pack");
+        buttonAtlas = new TextureAtlas("buttons/button.pack");
         skin.addRegions(buttonAtlas);
         buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.up = skin.getDrawable("button");
-        buttonStyle.over = skin.getDrawable("button");
-        buttonStyle.down = skin.getDrawable("button");
+        buttonStyle.over = skin.getDrawable("button_down");
+        buttonStyle.down = skin.getDrawable("button_down");
         buttonStyle.font = font;
+        font.getData().setScale(2);
 
         pauseButton = new TextButton("||", buttonStyle);
 
@@ -404,9 +419,8 @@ public class GameScreen implements Screen{
         backgroundStage.addActor(backgroundTable);
 
         table = new Table();
-        //table.setBackground(backgroundImage);
         table.setFillParent(true);
-        table.add(pauseButton).width(pauseButton.getWidth() * 3).height(pauseButton.getHeight() * 3).top().left().expand();
+        table.add(pauseButton).width(90).padLeft(8).padTop(8).top().left().expand();
         table.add(scoreLabel).top().right().expand();
         table.row();
         table.row();

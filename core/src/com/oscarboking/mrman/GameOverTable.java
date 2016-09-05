@@ -3,16 +3,10 @@ package com.oscarboking.mrman;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 
 /**
  * Created by boking on 2016-09-05.
@@ -24,7 +18,6 @@ public class GameOverTable extends Table {
     public Label highScoreLabel;
     public Label restartLabel;
 
-    private Skin skin;
     private BitmapFont font;
     private Label.LabelStyle textStyle;
 
@@ -34,7 +27,6 @@ public class GameOverTable extends Table {
 
         prefs = Gdx.app.getPreferences("My Preferences");
         font = new BitmapFont(Gdx.files.internal("fonts/gamefont.fnt"));
-        skin = new Skin();
         textStyle = new Label.LabelStyle(font, Color.WHITE);
 
         gameOverLabel = new Label("Game Over!",textStyle);
