@@ -12,6 +12,9 @@ public class MyGdxGame extends Game {
 	public void create () {
         game=this;
 		Settings.update();
+		if(Settings.isMusicEnabled()) {
+			Settings.playMenuMusic();
+		}
         setScreen(new MainMenu(game));
 	}
 

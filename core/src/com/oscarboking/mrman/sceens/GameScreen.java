@@ -8,17 +8,16 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -30,13 +29,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.oscarboking.mrman.GameOverTable;
@@ -48,8 +45,6 @@ import com.oscarboking.mrman.Settings;
 import com.oscarboking.mrman.Spawnable;
 import com.oscarboking.mrman.listeners.CollisionDetector;
 import java.util.List;
-
-import javafx.scene.control.Tab;
 
 /**
  * Created by Boking on 2016-07-17.
@@ -115,7 +110,7 @@ public class GameScreen implements Screen{
 
     Preferences prefs;
 
-    Sound gameSound;
+    Music gameMusic;
     Sound gameOverSound;
 
     TextureRegionDrawable backgroundImage;
@@ -260,7 +255,7 @@ public class GameScreen implements Screen{
         prefs.putInteger("totalJumps",newTotalJumps);
         prefs.flush();
 
-        gameSound.stop();
+        gameMusic.stop();
         if(Settings.isSoundEnabled()) {
             gameOverSound.play();
         }
@@ -280,13 +275,13 @@ public class GameScreen implements Screen{
             stage.addActor(pauseTable);
         }
 
-        gameSound.pause();
+        gameMusic.pause();
         isPaused = true;
     }
 
     public void setPauseModeFalse(){
         if(Settings.isMusicEnabled() && !isFirst) {
-            gameSound.resume();
+            gameMusic.play();
             pauseTable.clear();
             table.setFillParent(true);
             table.add(pauseButton).width(90).padLeft(8).padTop(8).top().left().expand();
@@ -294,6 +289,11 @@ public class GameScreen implements Screen{
             table.row();
             //table.debug(); //show debug lines
             stage.addActor(table);
+        }
+        if(isFirst){
+            gameMusic.setVolume(0.7f);
+            gameMusic.setLooping(true);
+            gameMusic.play();
         }
 
         isPaused=false;
@@ -313,9 +313,12 @@ public class GameScreen implements Screen{
 
         currentScore = 0;
 
-        gameSound = Gdx.audio.newSound(Gdx.files.internal("music/the_field_of_dreams.mp3"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/battleThemeA.ogg"));
+
         if(Settings.isMusicEnabled()) {
-            gameSound.loop(1.0f);
+            gameMusic.setVolume(0.7f);
+            gameMusic.setLooping(true);
+            gameMusic.play();
         }
         gameOverSound = Gdx.audio.newSound(Gdx.files.internal("music/applause.ogg"));
         backgroundTexture = new Texture("forest.png");
@@ -475,7 +478,7 @@ public class GameScreen implements Screen{
         debugRenderer.dispose();
         //player.getSprite().getTexture().dispose();
         player.dispose();
-        gameSound.dispose();
+        gameMusic.dispose();
         gameOverSound.dispose();
     }
 

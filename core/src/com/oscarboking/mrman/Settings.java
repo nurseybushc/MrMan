@@ -2,6 +2,7 @@ package com.oscarboking.mrman;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 
 /**
  * Created by boking on 2016-09-04.
@@ -13,11 +14,26 @@ public class Settings {
 
     private static Preferences prefs;
 
+    private static Music menuMusic;
+
 
     public static void update(){
         prefs = Gdx.app.getPreferences("My Preferences");
         setSoundEnabled(prefs.getBoolean("soundEnabled",true));
         setMusicEnabled(prefs.getBoolean("musicEnabled",true));
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/awesomeness.ogg"));
+        menuMusic.setVolume(0.7f);
+        menuMusic.setLooping(true);
+    }
+
+    public static void playMenuMusic(){
+        menuMusic.play();
+    }
+    public static void stopMenuMusic(){
+        menuMusic.stop();
+    }
+    public static void pauseMenuMusic(){
+        menuMusic.pause();
     }
 
     public static boolean isSoundEnabled() {

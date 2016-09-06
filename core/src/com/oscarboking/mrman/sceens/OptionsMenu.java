@@ -113,9 +113,11 @@ public class OptionsMenu implements Screen {
                 }
                 if(Settings.isMusicEnabled()){
                     Settings.setMusicEnabled(false);
+                    Settings.pauseMenuMusic();
                     musicButton.setText("Disabled");
                 }else{
                     Settings.setMusicEnabled(true);
+                    Settings.playMenuMusic();
                     musicButton.setText("Enabled");
                 }
                 return true;
