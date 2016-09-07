@@ -420,7 +420,7 @@ public class Player extends Sprite implements InputProcessor{
                         public void run() {
                             offCooldown = true;
                         }
-                    }, 0.7f);
+                    }, 0.8f);
                 } else if (item != null && itemOffCooldown) {
                     cooldown = item.getCooldown();
                     itemOffCooldown = false;
