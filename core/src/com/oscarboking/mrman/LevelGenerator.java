@@ -63,6 +63,7 @@ public class LevelGenerator {
         this.maxWidth = maxWidth;
         this.height = height;
 
+
         //(10,-12,20,4)
         firstGround = new Ground(world,screen,20,-12,20,4);
         secondGround = new Ground(world,screen,100,-12,20,4);
@@ -91,6 +92,19 @@ public class LevelGenerator {
 
     public void update(float bottomRight) {
 
+
+        if(screen.getCamera().position.x-(screen.getCamera().viewportWidth/2) > firstGround.getBody().getPosition().x+firstGround.getWidth()){
+
+            firstGround.reposition(secondGround.getX());
+            //firstGround.getBody().setTransform(new Vector2(secondGround.getX()+secondGround.getWidth(),-8), firstGround.getBody().getAngle());
+            //firstGround.setPosition(secondGround.getBody().getPosition().x-20*2,secondGround.getBody().getPosition().y-6*2);
+
+         }else if(screen.getCamera().position.x-(screen.getCamera().viewportWidth/2) > secondGround.getBody().getPosition().x+secondGround.getWidth()){
+
+            secondGround.reposition(firstGround.getX());
+            //secondGround.getBody().setTransform(new Vector2(firstGround.getX()+firstGround.getWidth(),-8), secondGround.getBody().getAngle());
+            //secondGround.setPosition(firstGround.getBody().getPosition().x-20*2,firstGround.getBody().getPosition().y-6*2);
+        }
 
         if (bottomRight > 100) {
             //update current objects as well

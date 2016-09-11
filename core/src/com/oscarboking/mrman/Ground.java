@@ -58,6 +58,11 @@ public class Ground extends Sprite implements Spawnable{
         this.update();
 
     }
+
+    public void reposition(float x){
+
+    }
+
     @Override
     public float getX() {
         return body.getPosition().x;

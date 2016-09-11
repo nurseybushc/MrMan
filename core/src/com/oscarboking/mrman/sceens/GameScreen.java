@@ -10,6 +10,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -156,6 +157,9 @@ public class GameScreen implements Screen{
                 }
             }, 10);
         }
+
+
+
 
         //Draws the GUI
         backgroundStage.act();
@@ -314,6 +318,9 @@ public class GameScreen implements Screen{
         isFirst = false;
     }
 
+    public Camera getCamera(){
+        return camera;
+    }
     public Player getPlayer(){
         return player;
     }
@@ -467,6 +474,9 @@ public class GameScreen implements Screen{
 
     @Override
     public void resize(int width, int height) {
+
+        //standard: camera.viewportWidht = width/25;
+        //standard: camera.viewportheight = height/25;
         camera.viewportWidth = width/25;
         camera.viewportHeight = height/25;
         camera.update();
