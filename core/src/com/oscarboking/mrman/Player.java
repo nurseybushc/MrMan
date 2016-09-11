@@ -254,6 +254,12 @@ public class Player extends Sprite implements InputProcessor{
     public float getTargetSpeed(){
         return targetSpeed;
     }
+    public void increaseTargetSpeed(float amount){
+        targetSpeed+=amount;
+        if(!isUsing){
+            body.setLinearVelocity(targetSpeed,body.getLinearVelocity().y);
+        }
+    }
     public BodyDef getBodyDef(){
         return this.bodyDef;
     }

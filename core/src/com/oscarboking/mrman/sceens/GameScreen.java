@@ -81,6 +81,7 @@ public class GameScreen implements Screen{
     private TextureAtlas groundAtlas;
 
     private boolean isPaused;
+    private boolean isSpeedTimerActive;
 
     //GUI VARIABLES
     private Skin skin;
@@ -138,10 +139,23 @@ public class GameScreen implements Screen{
     }
     @Override
     public void render(float delta) {
+
+
         Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 0 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
+
+        if(!isSpeedTimerActive){
+            isSpeedTimerActive = true;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    player.increaseTargetSpeed(1);
+                    isSpeedTimerActive = false;
+                }
+            }, 10);
+        }
 
         //Draws the GUI
         backgroundStage.act();
@@ -328,6 +342,7 @@ public class GameScreen implements Screen{
         groundAtlas = new TextureAtlas("ground.pack");
 
 
+        isSpeedTimerActive = false;
         deathScreenTimer = true;
 
         //Initiate GUI components
